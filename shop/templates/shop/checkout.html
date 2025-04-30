@@ -1,0 +1,147 @@
+{% extends "Shop/basic.html" %}
+{%block title%}{{product.Product_name}}-my Aweseme Cart {% endblock %}
+{%block body%} 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div class="container">
+   <div class= "col my-4">
+        <H2>Step 1 - my Awesome Cart express Checkout -Review yourCart itmes</h2> 
+            <div  class="my-4">
+                <ul class="list-group list-group-numbered" id="items">
+              </ul> 
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mt-3">
+                  <li class="breadcrumb-item active" aria-current="page"><b>Your totalPrice are RS.:-<span id="totalPrice"></span></b></li>
+                </ol>
+              </nav>
+        </div>
+        <div class= "col my-4">
+            <H2>Step 2 - Enter Addree & other Details:- </h2>
+                <form class="my-4" method="POST" action="/shop/checkout/">
+                  {% csrf_token %}
+                  <input type="hidden" name="itemsJson" id="itemsJson">
+                  <input type="hidden" name="amount" id="amount">
+                    <div class="form-row">
+                      <!-- First Name -->
+                      <div class="form-group col-md-6">
+                        <label for="fname">First Name</label>
+                        <input type="text" class="form-control" id="fname" name="fname" placeholder="First Name">
+                      </div>
+                      
+                      <!-- Last Name -->
+                      <div class="form-group col-md-6">
+                        <label for="lname">Last Name</label>
+                        <input type="text" class="form-control" id="lname" name="lname" placeholder="Last Name">
+                      </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label for="phone_Number">Phone Number</label>
+                            <input type="text" class="form-control" id="phone_Number" name="phone_Number" placeholder="Phone Number">
+                          </div>
+                                          
+                    <!-- Gender -->
+                      <div class="form-group col-md-6">
+                        <label for="gender">Gender</label>
+                        <input type="text" class="form-control" id="gender" name="gender" placeholder="Enter Gender">
+                      </div>
+                    </div>
+                
+                    <!-- Address -->
+                    <div class="form-group">
+                      <label for="address">Address</label>
+                      <input type="text" class="form-control" id="address" name="address" placeholder="1234 Main St">
+                    </div>
+                
+                    <!-- City, County, Zip -->
+                    <div class="form-row">
+                      <!-- City -->
+                      <div class="form-group col-md-4">
+                        <label for="city">City</label>
+                        <input type="text" class="form-control" id="city" name="city" placeholder="City">
+                      </div>
+                
+                      <!-- County -->
+                      <div class="form-group col-md-4">
+                        <label for="county">County</label>
+                        <input type="text" class="form-control" id="county" name="county" placeholder="County">
+                      </div>
+                
+                      <!-- Zip Code -->
+                      <div class="form-group col-md-4">
+                        <label for="zip_code">Zip Code</label>
+                        <input type="text" class="form-control" id="zip_code" name="zip_code" placeholder=" Zip code">
+                      </div>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Place Order</button>
+                  </form>
+                  <br/><br/>
+                  <center >{{ PayPal_from.render }}</center>
+        </div> 
+    </diV>
+  </div>
+{% endblock %}
+{%block jS%} 
+<script>
+  if (localStorage.getItem('cart') == null) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+}
+
+console.log(cart);
+
+let sum = 0;
+let totalPrice = 0;
+
+if ($.isEmptyObject(cart)) {
+    // If the cart is empty
+    const mystr = `<p><b>Your cart is empty, please add some items to your cart before checking out!</b></p>`;
+    // Append the generated string to the list element with id 'items'
+    $('#items').append(mystr);
+} else {
+    for (const item in cart) {
+        const name = cart[item][1]; // Access the name of the item
+        const qty = cart[item][0];  // Access the quantity of the item
+        const itemPrice = cart[item][2]; // Access the price of the item
+        const itemTotal = qty * itemPrice; // Calculate the total price for this item
+
+        sum += qty; // Add the quantity to the total count
+        totalPrice += itemTotal; // Add the item total to the grand total
+
+        // Create the HTML string to display the item details
+        const mystr = `
+            <li class="list-group-item d-flex justify-content-between align-items-start">
+                <div class="fw-bold">${name}</div>
+                <span class="badge text-bg-primary rounded-pill">Qty: ${qty}</span>
+                <span class="badge text-bg-primary rounded-pill">Price: $${itemTotal.toFixed(2)}</span>
+            </li>`;
+        // Append the generated string to the list element with id 'items'
+        $('#items').append(mystr);
+    }
+
+    // Display the grand total
+    const totalStr = `
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="fw-bold">Total</div>
+            <span class="badge text-bg-success rounded-pill">${sum} items</span>
+            <span class="badge text-bg-success rounded-pill">Price: $${totalPrice.toFixed(2)}</span>
+        </li>`;
+    $('#items').append(totalStr);
+}
+
+document.getElementById('cart').innerHTML =sum;
+document.getElementById('totalPrice').innerHTML =totalPrice;
+$('#itemsJson').val(JSON.stringify(cart));
+{% if thank %}
+alert("Thank you for your order ,this is your {{id}}. Use it to track your Odert to useing tracker ");
+localStorage.clear();
+document.location ="/shop";
+{% endif %}
+{% comment %} $('#amount').val($('#totalPrice').html()) {% endcomment %}
+$('#amount').val(parseFloat(totalPrice)); 
+
+</script>
+
+{%endblock%}

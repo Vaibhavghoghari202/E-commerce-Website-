@@ -1,0 +1,23 @@
+{% extends "Shop/basic.html" %}
+{%block title%}Tracker {% endblock %}
+{%block body%} 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div class="container">
+    {{response}}
+   <div class= "col my-4">
+        <H2>Payment status regarding your order Id{{response.ORDERID}} </h2>
+            {% if response.RESPCODE == '01'%}
+            <p>Payment status is successful</p>
+            {%else%}
+            <p>Payment IS Not successful !</p>
+            {%endif%} 
+     </div>      
+     
+    </diV>
+{% endblock %}
+{%block jS%} 
+<script>
+
+</script>
+
+{%endblock%}

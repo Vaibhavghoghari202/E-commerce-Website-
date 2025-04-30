@@ -1,0 +1,107 @@
+{% extends "Shop/basic.html" %}
+
+{%block title%} Adout AS {% endblock %}
+{%block CSS%}  {%endblock%}
+{%block body%} 
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    .about-header {
+        background-color: #f8f9fa;
+        padding: 50px 0;
+        text-align: center;
+    }
+    .about-header h1 {
+        font-size: 3rem;
+        font-weight: bold;
+    }
+    .about-section {
+        padding: 60px 0;
+    }
+    .img-fluid {
+      max-width: 100%;
+      height: 50vh;
+    }
+    .about-img {
+        max-width: 100%;
+        border-radius: 10px;
+    }
+    .mission-text {
+        font-size: 1.2rem;
+    }
+    .team-section {
+        background-color: #f8f9fa;
+        padding: 60px 0;
+    }
+    .team-section h2 {
+        text-align: center;
+        margin-bottom: 50px;
+    }
+    .team-member {
+        margin-bottom: 30px;
+    }
+    .team-member img {
+        border-radius: 25%;
+    }
+    .team-member h5 {
+        margin-top: 15px;
+        font-weight: bold;
+    }
+</style>
+</head>
+<body>
+{% load static %} 
+<!-- About Us Header Section -->
+<section class="about-header mt-2" style="background-image: url('{% static "shop/about.jpg" %}'); background-size: cover; background-position: center; height: 55vh;">
+  <div class="container text-white text-center" style="padding: inherit;">
+      <h1>About Us</h1>
+      <p class="lead">Your trusted marketplace for premium products.</p>
+  </div>
+</section>
+
+<!-- About Us Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Our Story</h2>
+                <p class="mission-text">Welcome to E-com, where we believe in quality, affordability, and excellent customer service. Our journey began in 2024, with the vision to create an easy, reliable, and enjoyable shopping experience for everyone. We curate a wide range of products, from fashion to electronics, to meet your everyday needs.</p>
+                <p class="mission-text">Our goal is to become the go-to destination for all your shopping requirements by offering top-notch products at competitive prices. We are passionate about what we do, and customer satisfaction is our top priority.</p>
+            </div>
+            <div class="col-md-6">
+              <img src="{% static 'shop/aboutimage.jpg' %}" alt="About Us Image" class="about-img" style="height: 100%;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Team Section -->
+<section class="team-section">
+    <div class="container">
+        <h2>Meet Our Team</h2>
+        <div class="row">
+            <div class="col-md-4 text-center team-member">
+                <img src="{% static 'shop/T1.jpg' %}" alt="Team Member" class="img-fluid">
+                <h5>Jane Doe</h5>
+                <p>CEO & Founder</p>
+            </div>
+            <div class="col-md-4 text-center team-member">
+                <img src="{% static 'shop/T4.jpg' %}" alt="Team Member" class="img-fluid">
+                <h5>John Smith</h5>
+                <p>Chief Technology Officer</p>
+            </div>
+            <div class="col-md-4 text-center team-member">
+                <img src="{% static 'shop/T2.jpg' %}" alt="Team Member" class="img-fluid">
+                <h5>Emma Brown</h5>
+                <p>Head of Marketing</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+{%endblock%}

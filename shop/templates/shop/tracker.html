@@ -1,0 +1,112 @@
+{% extends "Shop/basic.html" %}
+{%block title%}Tracker {% endblock %}
+{% block CSS %}
+    
+<style>
+    footer a {
+        text-decoration: none;
+        color: white;
+    }
+    footer a:hover {
+        color: #ff9c00; /* Highlight on hover */
+    }
+    footer i {
+        font-size: 1.5em;
+    }
+    </style>
+    
+{% endblock  %}
+{%block body%} 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<div class="container">
+   <div class= "col my-4">
+        <H2>Step 1 - Enter Your Order ID And Your Phone Totack Your Order</h2> 
+            <div  class="my-4">
+                <form class="my-4" method="POST" id="trackerform" action="#">
+                    {% csrf_token %}
+                    
+                
+                    <!-- Form Row for Order ID and Phone Number -->
+                    <div class="form-row">
+                        <!-- Order ID -->
+                        <div class="form-group col-md-6">
+                            <label for="order_id">Order ID</label>
+                            <input type="text" class="form-control" id="orderid" name="orderid" placeholder="Order ID">
+                        </div>
+                        
+                        <!-- Phone Number -->
+                        <div class="form-group col-md-6">
+                            <label for="phone_Number">Phone Number</label>
+                            <input type="text" class="form-control" id="phone_Number" name="phone_Number" placeholder="Phone Number">
+                        </div>
+                    </div>
+                
+                    <!-- Submit Button -->
+                    <button type="submit" class="btn btn-primary">Track Order</button>
+                </form>
+        </div>
+        <div class= "col my-4">
+            <H2>Your order Status </h2>
+                <div  class="my-4">
+                    <ul class="list-group list-group-numbered" id="items">
+                        Enter your order Id and phone_Number and click Track Order to find details about your order!
+                  </ul> 
+                </div>
+                <H2>Your order details </h2>
+                <div  class="my-4">
+                    <ul class="list-group list-group-numbered" id="ditems">
+
+                  </ul> 
+                </div>
+        </div> 
+    </diV>
+</div>
+{% endblock %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+{% block jS %}    
+<script>
+    $('#trackerform').submit(function(event){
+        $('#items').empty();
+        $('#ditems').empty();
+
+        const formData = {
+            'orderid': $('#orderid').val(),
+            'phone_Number': $('#phone_Number').val(),
+            'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/shop/tracker/",  // Double-check this URL
+            data: formData,
+        })
+        .done(function(data) {
+            console.log(data);
+            if (data.status === 'success') {
+                for (let update of data.updates) {
+                    $('#items').append(
+                        `<li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${update.text}
+                            <span class="badge badge-primary badge-pill">${update.time}</span>
+                        </li>`
+                    );
+                }
+
+                const cart = JSON.parse(data.itemsJson);
+                for (let item in cart) {
+                    $('#ditems').append(
+                        `<li class="list-group-item d-flex justify-content-between align-items-center">
+                            ${cart[item][1]}
+                            <span class="badge badge-primary badge-pill">${cart[item][0]}</span>
+                        </li>`
+                    );
+                }
+            } else {
+                $('#items').append(`<li class="list-group-item">No order found.</li>`);
+                $('#ditems').append(`<li class="list-group-item">Please check your Order ID and Phone Number.</li>`);
+            }
+        });
+        event.preventDefault();
+    });
+</script>
+{% endblock %}

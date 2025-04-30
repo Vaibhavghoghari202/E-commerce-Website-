@@ -1,0 +1,65 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Complete Your Payment{% endblock %}
+{% block body %}
+<div class="container text-center mt-5">
+    <h2>Proceed to PayPal</h2>
+    <p>Click the button below to complete your payment securely with PayPal.</p>
+    <div class="my-4">
+        {{ form.render }}
+    </div>
+</div>
+{% endblock %}
+
+
+
+
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PayPal JS SDK Standard Integration</title>
+</head>
+<body>
+
+    <!-- Total Price (Ensure this exists) -->
+    <div id="totalPrice" style="display: none;">1.01</div>
+
+    <!-- PayPal Button Container -->
+    <div id="paypal-button-container"></div>
+
+    <!-- PayPal Script -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AarT7IOKlkkHk-TA1Xge1ZyeRpqTp5Z_QfruijKepfXKT_7vAnqaWSSq5ONcozWYGm_yHQbzdIHzlPIl&currency=USD&disable-funding=credit"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            if (typeof paypal === "undefined") {
+                console.error("PayPal SDK failed to load.");
+                return;
+            }
+
+            paypal.Buttons({
+                createOrder: function(data, actions) {
+                    let totalAmount = document.getElementById('totalPrice').innerText || "1000000"; // Ensure valid price
+                    return actions.order.create({
+                        purchase_units: [{
+                            amount: { value: totalAmount }
+                        }]
+                    });
+                },
+                onApprove: function(data, actions) {
+                    return actions.order.capture().then(function(details) {
+                        alert('Transaction completed by ' + details.payer.name.given_name + '!');
+                        window.location.href = "/shop/payment_success/";
+                    });
+                },
+                onError: function(err) {
+                    console.error('PayPal Error:', err);
+                    alert('An error occurred with PayPal. Please try again.');
+                }
+            }).render('#paypal-button-container');
+        });
+    </script>
+
+</body>
+</html> {% endcomment %}

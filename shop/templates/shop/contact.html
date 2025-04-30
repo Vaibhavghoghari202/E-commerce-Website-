@@ -1,0 +1,158 @@
+{% extends 'shop/basic.html' %}
+{% block title %}Contact Us{% endblock %}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
+{% block css %}
+{% load static %}
+<style>
+    .contact-section {
+        margin-top: 50px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 80vh;
+        position: relative;
+        background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEF6PXF2ba6RMkaz-X0ivHVkIPyHfNTOw-Zw&s') center/cover no-repeat;
+    }
+
+    .contact-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1;
+    }
+
+    .contact-section .container {
+        position: relative;
+        z-index: 2;
+        color: white;
+    }
+
+    .title {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+    .title h2 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .title p {
+        font-size: 1.2rem;
+        margin-top: 0;
+    }
+
+    .contact-info {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-info h3 {
+        font-weight: bold;
+        margin-bottom: 15px;
+    }
+
+    .contact-info ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .contact-info ul li {
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+    }
+
+    .contact-info ul li i {
+        margin-right: 10px;
+        font-size: 1.2rem;
+    }
+
+    .form-container {
+        background: rgba(255, 255, 255, 0.9);
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+        border-color: #004885;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="contact-section ">
+    <div class="row w-100">
+        <div class="col-12 d-flex flex-column align-items-center justify-content-center" 
+        style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSGqXLg1R4woXye3ZQ8t8h7ak9nd7vgUnKjbQ&s');background-size: cover;background-position: center;height: 55vh;color: white;text-align: center;margin: 1%" >
+       <h2>Contact Us</h2>
+       <p>We are here to help you! Reach out to us anytime.</p>
+   </div>
+   
+        <!-- Contact Info Section -->
+        <div class="col-lg-5 d-flex flex-column justify-content-center">
+            <div class="contact-info">
+                <h3>Contact Information</h3>
+                <p>Reach out to us using the details below or fill out the contact form.</p>
+                <ul>
+                    <li><i class="bi bi-telephone"></i> Phone: +123 456 7890</li>
+                    <li><i class="bi bi-envelope"></i> Email: Shivaexport@gmail.com</li>
+                    <li><i class="bi bi-geo-alt"></i> Address: 123 Export Street, City, Country</li>
+                    <li><i class="bi bi-clock"></i> Working Hours: Mon-Fri, 9:00 AM - 6:00 PM</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Contact Form Section -->
+        <div class="col-lg-7 mt-4">
+            <div class="form-container">
+                <h2 class="text-center mb-4"><b>Send Us a Message</b></h2>
+                <form action="/shop/contact/" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group mb-3">
+                        <label for="name">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="email">Email Address</label>
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Phone">Phone</label>
+                        <input type="tel" class="form-control" id="Phone" name="Phone" placeholder="Enter your phone number" required>
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="message">Message</label>
+                        <textarea class="form-control" id="message" rows="5" name="message" placeholder="Enter your message" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block jS %}
+<script>
+{% if thank %}
+alert("Thank you for contacting us.");
+document.location = "/shop";
+{% endif %}
+</script>
+{% endblock %}
